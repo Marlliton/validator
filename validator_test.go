@@ -2,17 +2,17 @@ package validator
 
 import (
 	"testing"
+
+	"github.com/Marlliton/validator/rules"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestValidatorAdd(t *testing.T) {
-	val := Validator{}
-	val.Add("Name", Rules{
-		MinLength(10),
+func Test_ValidatorAdd(t *testing.T) {
+	val := validator{}
+	val.Add("Name", rules.Rules{
+		rules.MinLength(10),
+		rules.MaxLength(20),
 	})
 
-	user := map[string]interface{}{
-		"Name": "John aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-	}
-	errors := val.Validate(user)
-	t.Log(errors)
+	assert.Len(t, val.FieldRules()["Name"], 2)
 }
