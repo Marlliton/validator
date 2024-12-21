@@ -22,5 +22,17 @@ func MinValue[T int | float64](min T) Rule {
 
 }
 
-// func MaxValue(max int) Rule {
-// }
+func MaxValue[T int | float64](max T) Rule {
+	return func(key string, value interface{}) error {
+		switch v := value.(type) {
+		case T:
+			if v > max {
+				return fmt.Errorf("the field '%s' must be less than or equal to %v", key, max)
+			}
+		default:
+			return fmt.Errorf("the field '%s' must be a number of type %v", key, reflect.TypeOf(max))
+		}
+
+		return nil
+	}
+}
