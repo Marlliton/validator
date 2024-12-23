@@ -66,7 +66,7 @@ func Test_Validate(t *testing.T) {
 
 	t.Run("should panic if is not a struct", func(t *testing.T) {
 		v := New()
-		assert.PanicsWithValue(t, "Validate: o dado fornecido não é uma struct", func ()  {
+		assert.PanicsWithValue(t, "Validate: o dado fornecido não é uma struct", func() {
 			v.Validate("not a struct")
 		})
 	})
