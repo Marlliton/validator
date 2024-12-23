@@ -24,7 +24,6 @@ func ValidPhoneNumber() Rule {
 		phoneNumber := strings.ReplaceAll(value.(string), " ", "")
 
 		isValid := re.Find([]byte(phoneNumber)) != nil
-		fmt.Println("é válido????????", isValid)
 		if !isValid {
 			return fmt.Errorf("the field '%s' is not a valid phone number %v", key, value)
 		}
