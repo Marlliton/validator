@@ -4,6 +4,7 @@ import (
 	"reflect"
 
 	"github.com/Marlliton/validator/rules"
+	"github.com/Marlliton/validator/validator_error"
 )
 
 type validator struct {
@@ -25,8 +26,8 @@ func (v *validator) Add(field string, r rules.Rules) {
 	v.fieldRules[field] = append(v.fieldRules[field], r...)
 }
 
-func (v *validator) Validate(data interface{}) []error {
-	var errors []error
+func (v *validator) Validate(data interface{}) []*validator_error.ValidatorError {
+	var errors []*validator_error.ValidatorError
 
 	val := reflect.ValueOf(data)
 	typ := reflect.TypeOf(data)

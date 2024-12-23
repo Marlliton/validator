@@ -3,51 +3,68 @@ package rules
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/Marlliton/validator/validator_error"
 )
 
 func MinLength(min int) Rule {
-	return func(key string, value interface{}) error {
+	return func(key string, value interface{}) *validator_error.ValidatorError {
 		v := reflect.ValueOf(value)
 
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() < min {
-				return fmt.Errorf("o campo %s deve ter no mínimo %d", key, min)
+				return &validator_error.ValidatorError{Field: key, Message: fmt.Sprintf("the field '%s' must have at most %d", key, min)}
 			}
 		default:
-			return fmt.Errorf("o campo '%s' não pode ser validado com MinLength", key)
+			return &validator_error.ValidatorError{
+				Field:   key,
+				Message: fmt.Sprintf("the field '%s' cannot be validated with MinLength", key),
+			}
 		}
 		return nil
 	}
 }
 
 func MaxLength(max int) Rule {
-	return func(key string, value interface{}) error {
+	return func(key string, value interface{}) *validator_error.ValidatorError {
 		v := reflect.ValueOf(value)
 
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() > max {
-				return fmt.Errorf("o campo %s deve ter no máximo %d", key, max)
+				return &validator_error.ValidatorError{
+					Field:   key,
+					Message: fmt.Sprintf("the field '%s' must have at most %d", key, max),
+				}
 			}
 		default:
-			return fmt.Errorf("o campo '%s' não pode ser validado com MaxLength", key)
+			return &validator_error.ValidatorError{
+				Field:   key,
+				Message: fmt.Sprintf("the field '%s' cannot be validated with MaxLength", key),
+			}
 		}
 		return nil
 	}
 }
 
 func ExactLength(length int) Rule {
-	return func(key string, value interface{}) error {
+	return func(key string, value interface{}) *validator_error.ValidatorError {
 		v := reflect.ValueOf(value)
 
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() != length {
-				return fmt.Errorf("o campo %s deve ter exatamente %d", key, length)
+				return &validator_error.ValidatorError{
+					Field:   key,
+					Message: fmt.Sprintf("the field '%s' must have exactly %d", key, length),
+				}
 			}
 		default:
-			return fmt.Errorf("o campo '%s' não pode ser validado com MaxLength", key)
+			return &validator_error.ValidatorError{
+				Field:   key,
+				Message: fmt.Sprintf("the field '%s' cannot be validated with ExactLength", key),
+			}
 		}
 		return nil
 	}

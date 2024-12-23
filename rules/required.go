@@ -3,11 +3,16 @@ package rules
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/Marlliton/validator/validator_error"
 )
 
 func Required() Rule {
-	return func(key string, value interface{}) error {
-		errMsg := fmt.Errorf("the field '%s' is required", key)
+	return func(key string, value interface{}) *validator_error.ValidatorError {
+		errMsg := &validator_error.ValidatorError{
+			Field:   key,
+			Message: fmt.Sprintf("the field '%s' is required", key),
+		}
 
 		if value == nil {
 			return errMsg
