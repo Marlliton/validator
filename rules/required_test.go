@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRequired(t *testing.T) {
+func Test_Required(t *testing.T) {
 	required := Required()
 
 	t.Run("should return error for nil value", func(t *testing.T) {
