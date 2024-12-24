@@ -3,7 +3,7 @@ package validator
 import (
 	"testing"
 
-	"github.com/Marlliton/validator/rules"
+	"github.com/Marlliton/validator/rule"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,8 +24,8 @@ func Test_New(t *testing.T) {
 func Test_Add(t *testing.T) {
 	t.Run("should add rules for a field", func(t *testing.T) {
 		v := New()
-		v.Add("Name", rules.Rules{
-			rules.Required(),
+		v.Add("Name", rule.Rules{
+			rule.Required(),
 		})
 
 		assert.NotNil(t, v.fieldRules)
@@ -36,8 +36,8 @@ func Test_Add(t *testing.T) {
 func Test_Validate(t *testing.T) {
 	t.Run("should validate struct and return errors for invalid fields", func(t *testing.T) {
 		v := New()
-		v.Add("Name", rules.Rules{rules.Required()})
-		v.Add("Email", rules.Rules{rules.Required()})
+		v.Add("Name", rule.Rules{rule.Required()})
+		v.Add("Email", rule.Rules{rule.Required()})
 
 		data := TestStruct{
 			Name:  "",
@@ -52,8 +52,8 @@ func Test_Validate(t *testing.T) {
 
 	t.Run("should not return errors for a valid fields", func(t *testing.T) {
 		v := New()
-		v.Add("Name", rules.Rules{rules.Required()})
-		v.Add("Email", rules.Rules{rules.Required()})
+		v.Add("Name", rule.Rules{rule.Required()})
+		v.Add("Email", rule.Rules{rule.Required()})
 
 		data := TestStruct{
 			Name:  "Valid Name",

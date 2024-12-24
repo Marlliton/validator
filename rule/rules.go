@@ -1,4 +1,4 @@
-package rules
+package rule
 
 import "github.com/Marlliton/validator/validator_error"
 
