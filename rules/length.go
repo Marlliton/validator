@@ -16,7 +16,7 @@ func MinLength(min int) Rule {
 			if v.Len() < min {
 				return &validator_error.ValidatorError{
 					Field:   key,
-					Message: fmt.Sprintf("the field '%s' must be greathr than %d", key, min)}
+					Message: fmt.Sprintf("the field '%s' must be greater than %d", key, min)}
 			}
 		default:
 			return &validator_error.ValidatorError{
