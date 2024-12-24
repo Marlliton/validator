@@ -14,7 +14,9 @@ func MinLength(min int) Rule {
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() < min {
-				return &validator_error.ValidatorError{Field: key, Message: fmt.Sprintf("the field '%s' must have at most %d", key, min)}
+				return &validator_error.ValidatorError{
+					Field:   key,
+					Message: fmt.Sprintf("the field '%s' must be greathr than %d", key, min)}
 			}
 		default:
 			return &validator_error.ValidatorError{
@@ -35,7 +37,7 @@ func MaxLength(max int) Rule {
 			if v.Len() > max {
 				return &validator_error.ValidatorError{
 					Field:   key,
-					Message: fmt.Sprintf("the field '%s' must have at most %d", key, max),
+					Message: fmt.Sprintf("the field '%s' must be less than %d", key, max),
 				}
 			}
 		default:
