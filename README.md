@@ -1,3 +1,1 @@
-# Validator
-
-Pacote de validação em escrito em go
+# Package validator
