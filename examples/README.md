@@ -1,33 +1,15 @@
-package main
+## Validação no Momento da Criação
 
-import (
-	"fmt"
+Este exemplo mostra como usar uma função de fábrica (New) para criar uma instância de User com validação automática. Ele verifica se os dados fornecidos atendem às regras antes de retornar o objeto, garantindo consistência e segurança nos dados. Caso os dados sejam inválidos, uma lista de erros é retornada.
 
-	"github.com/Marlliton/validator"
-	"github.com/Marlliton/validator/rule"
-	"github.com/Marlliton/validator/validator_error"
-)
-
-type Address struct {
-	Street string
-	Zip    string
-}
-
+```go
 type User struct {
-	Name    string
-	Email   string
-	Address Address
+	Name  string
+	Email string
 }
 
-func New(name, email, street, zip string) (*User, []*validator_error.ValidatorError) {
-	user := &User{
-		Name:  name,
-		Email: email,
-		Address: Address{
-			Street: street,
-			Zip:    zip,
-		},
-	}
+func New(name, email string) (*User, []*validator_error.ValidatorError) {
+	user := &User{name, email}
 
 	if errs, ok := user.Validate(); !ok {
 		return nil, errs
@@ -42,17 +24,11 @@ func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 	v.Add("Name", rule.Rules{
 		rule.Required(),
 		rule.MinLength(3),
+		rule.MaxLength(50),
 	})
 	v.Add("Email", rule.Rules{
 		rule.Required(),
 		rule.ValidEmail(),
-	})
-	v.Add("Address.Street", rule.Rules{
-		rule.Required(),
-	})
-	v.Add("Address.Zip", rule.Rules{
-		rule.Required(),
-		rule.ExactLength(5),
 	})
 
 	errs := v.Validate(*u)
@@ -63,7 +39,7 @@ func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 }
 
 func main() {
-	user, errs := New("John", "example@gmail.com", "", "")
+	user, errs := New("Jo", "invalid_email")
 	if errs != nil {
 		fmt.Println("Erros de validação:")
 		for _, err := range errs {
@@ -73,3 +49,4 @@ func main() {
 		fmt.Println("Tudo válido: ", user)
 	}
 }
+```
