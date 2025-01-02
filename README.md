@@ -82,7 +82,9 @@ O pacote oferece uma variedade de regras que podem ser aplicadas aos campos. Exe
 - `rules.Required()`: O campo é obrigatório.
 - `rules.MinLength(n)`: Comprimento mínimo.
 - `rules.MaxLength(n)`: Comprimento máximo.
+- `rules.ExactLength(n)`: Comprimento exatamente igual a "n".
 - `rules.ValidEmail()`: Valida um email.
+- `rules.ValidPhoneNumber()`: Valida um telefone no formato [e164](https://en.wikipedia.org/wiki/E.164).
 - `rules.MinValue(n)`: Valor mínimo permitido.
 - `rules.MaxValue(n)`: Valor máximo permitido.
 
@@ -106,14 +108,6 @@ v.Add("CustomField", rules.Rules{
 })
 ```
 
-## ✅ Testes
-
-Certifique-se de que tudo está funcionando corretamente rodando:
-
-```bash
-go test ./...
-```
-
 ## 📚 Exemplos
 
 - Exemplos de uso disponíveis no diretório [`examples`](./examples).
@@ -125,7 +119,3 @@ Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie u
 ## 📄 Licença
 
 Este projeto é distribuído sob a licença [MIT](./LICENSE).
-
----
-
-Esse README deixa claro como usar o pacote, fornece exemplos práticos e destaca as funcionalidades disponíveis. Você pode incluir mais detalhes, como links para benchmarks ou exemplos avançados, conforme necessário.
