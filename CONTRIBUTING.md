@@ -51,7 +51,7 @@ Se você deseja corrigir um problema ou implementar uma nova funcionalidade:
 ## 🧪 Adicionando ou Atualizando Testes
 
 - **Todo código novo deve incluir testes apropriados.** Isso garante que as alterações sejam verificáveis e que o projeto mantenha sua qualidade.
-- Os testes devem ser colocados no diretório do arquivo que está sendo testado segudo de `*_test.go`.
+- Os testes devem ser colocados no mesmo diretório do arquivo que está sendo testado seguido de `*_test.go`.
 - Siga o padrão de nomenclatura e organização dos testes existentes.
 
 ## 📚 Estilo de Código
