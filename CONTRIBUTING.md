@@ -38,7 +38,7 @@ Se você deseja corrigir um problema ou implementar uma nova funcionalidade:
    git clone https://github.com/Marlliton/validator.git
    cd validator
    ```
-2. Certifique-se de ter o Go instalado (versão mínima recomendada: 1.23.4).
+2. Certifique-se de ter o Go instalado (versão mínima recomendada: (1.23.4).
 3. Instale dependências, se necessário:
    ```bash
    go mod tidy
