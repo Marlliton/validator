@@ -30,7 +30,8 @@ import (
 	"fmt"
 
 	"github.com/Marlliton/validator"
-	"github.com/Marlliton/validator/rules"
+	"github.com/Marlliton/validator/rule"
+	"github.com/Marlliton/validator/validator_error"
 )
 
 type User struct {
@@ -42,17 +43,17 @@ type User struct {
 func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 	v := validator.New()
 
-	v.Add("Name", rules.Rules{
-		rules.Required(),
-		rules.MinLength(3),
-		rules.MaxLength(50),
+	v.Add("Name", rule.Rules{
+		rule.Required(),
+		rule.MinLength(3),
+		rule.MaxLength(50),
 	})
-	v.Add("Email", rules.Rules{
-		rules.Required(),
-		rules.ValidEmail(),
+	v.Add("Email", rule.Rules{
+		rule.Required(),
+		rule.ValidEmail(),
 	})
-	v.Add("Age", rules.Rules{
-		rules.MinValue(18),
+	v.Add("Age", rule.Rules{
+		rule.MinValue(18),
 	})
 
 	errs := v.Validate(*u)
@@ -95,7 +96,7 @@ Você pode combinar essas regras em diferentes campos.
 Crie suas próprias validações passando uma função personalizada como regra:
 
 ```go
-v.Add("CustomField", rules.Rules{
+v.Add("CustomField", rule.Rules{
 	func(fieldName string, value interface{}) *validator_error.ValidatorError {
 		if value.(int)%2 != 0 {
 			return &validator_error.ValidatorError{
