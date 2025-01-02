@@ -42,6 +42,7 @@ func Test_ValidPhoneNumber(t *testing.T) {
 	}{
 		{"phone", "+1234567890", ""},
 		{"phone", "+1 234 567 890", ""},
+		{"phone", "+55 79 9 9912 9999", ""},
 		{"phone", "+123", "the field 'phone' is not a valid phone number"},
 		{"phone", "1234567890", "the field 'phone' is not a valid phone number"},
 		{"phone", "+12 345678901234567890", "the field 'phone' is not a valid phone number"},
