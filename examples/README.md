@@ -19,18 +19,22 @@ import (
 )
 
 func main() {
+	// Representa a struct Product a ser validada
 	product := struct {
 		Name  string
 		Price float64
 	}{Name: "Phone", Price: -1.999}
 
+	// Cria uma instância do validator
 	v := validator.New()
+	// Define as regras de validação para cada campo
 	v.Add("Name", rule.Rules{rule.Required()})
 	v.Add("Price", rule.Rules{
 		rule.Required(),
 		rule.MinValue(0.0),
 	})
 
+	// Valida os campos da struct
 	errs := v.Validate(product)
 	if errs != nil {
 		fmt.Println("Erros de validação:")
