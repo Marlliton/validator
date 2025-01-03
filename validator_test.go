@@ -7,10 +7,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type TestDistrict struct {
+	District string
+}
+
+type TestAddressStruct struct {
+	Street   string
+	Zip      string
+	District TestDistrict
+}
+
 type TestStruct struct {
 	Name  string
 	Email string
 	Age   int
+
+	Address TestAddressStruct
 }
 
 func Test_New(t *testing.T) {
@@ -69,5 +81,69 @@ func Test_Validate(t *testing.T) {
 		assert.PanicsWithValue(t, "Validate: o dado fornecido não é uma struct", func() {
 			v.Validate("not a struct")
 		})
+	})
+}
+
+func Test_NestedStruct(t *testing.T) {
+	t.Run("should validate nested struct and return errors for invalid fields", func(t *testing.T) {
+		v := New()
+		v.Add("Name", rule.Rules{rule.Required()})
+		v.Add("Email", rule.Rules{rule.Required()})
+		v.Add("Address.Street", rule.Rules{rule.Required()})
+		v.Add("Address.Zip", rule.Rules{rule.Required()})
+
+		data := TestStruct{
+			Name:  "Valid Name",
+			Email: "valid@zmail.com",
+			Address: TestAddressStruct{
+				Street: "",
+				Zip:    "",
+			},
+		}
+
+		errs := v.Validate(data)
+		assert.Equal(t, 2, len(errs))
+	})
+
+	t.Run("should validate nested struct district field and return errors for invalid fields", func(t *testing.T) {
+		v := New()
+		v.Add("Name", rule.Rules{rule.Required()})
+		v.Add("Email", rule.Rules{rule.Required()})
+		v.Add("Address.Street", rule.Rules{rule.Required()})
+		v.Add("Address.Zip", rule.Rules{rule.Required()})
+		v.Add("Address.District.District", rule.Rules{rule.Required()})
+
+		data := TestStruct{
+			Name:  "Valid Name",
+			Email: "valid@zmail.com",
+			Address: TestAddressStruct{
+				Street: "",
+				Zip:    "",
+			},
+		}
+
+		errs := v.Validate(data)
+		assert.Equal(t, 3, len(errs))
+	})
+
+	t.Run("should validate nested struct and not return errors for a valid fields", func(t *testing.T) {
+		v := New()
+		v.Add("Name", rule.Rules{rule.Required(), rule.MinLength(3)})
+		v.Add("Email", rule.Rules{rule.Required()})
+		v.Add("Address.Street", rule.Rules{rule.Required()})
+		v.Add("Address.Zip", rule.Rules{rule.Required()})
+
+		data := TestStruct{
+			Name:  "John Doe",
+			Email: "john@zmail.com",
+			Address: TestAddressStruct{
+				Street: "Address",
+				Zip:    "99990000",
+			},
+		}
+
+		errs := v.Validate(data)
+		t.Log("eeeeeeeeeer", errs)
+		assert.Equal(t, 0, len(errs))
 	})
 }
