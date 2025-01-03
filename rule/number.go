@@ -21,7 +21,7 @@ func MinValue[T int | float64](min T) Rule {
 		default:
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be a number of type %v", key, reflect.TypeOf(min)),
+				Message: fmt.Sprintf("the field '%s' must be a number of type %v, but received %v", key, reflect.TypeOf(min), reflect.TypeOf(value)),
 			}
 		}
 
@@ -43,7 +43,7 @@ func MaxValue[T int | float64](max T) Rule {
 		default:
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be a number of type %v", key, reflect.TypeOf(max)),
+				Message: fmt.Sprintf("the field '%s' must be a number of type %v, but received %v", key, reflect.TypeOf(max), reflect.TypeOf(value)),
 			}
 		}
 
