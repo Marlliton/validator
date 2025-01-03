@@ -117,6 +117,10 @@ v.Add("CustomField", rule.Rules{
 
 Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie um pull request com melhorias. Certifique-se de seguir as diretrizes no arquivo [CONTRIBUTING.md](./CONTRIBUTING.md).
 
+## Itens a Fazer
+
+- [ ] Permitir que o usuário forneça sua próprias mensagens customizadas
+
 ## 📄 Licença
 
 Este projeto é distribuído sob a licença [MIT](./LICENSE).
