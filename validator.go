@@ -31,24 +31,6 @@ func (v *validator) Validate(data interface{}) []*validator_error.ValidatorError
 	var errors []*validator_error.ValidatorError
 
 	val := reflect.ValueOf(data)
-	// typeOfData := reflect.TypeOf(data)
-	// if val.Kind() != reflect.Struct {
-	// 	panic("Validate: o dado fornecido não é uma struct")
-	// }
-	//
-	// for i := 0; i < val.NumField(); i++ {
-	// 	field := typeOfData.Field(i)
-	// 	fieldName := field.Name
-	// 	fieldValue := val.Field(i).Interface()
-	//
-	// 	if rules, exists := v.fieldRules[fieldName]; exists {
-	// 		for _, rule := range rules {
-	// 			if err := rule(fieldName, fieldValue); err != nil {
-	// 				errors = append(errors, err)
-	// 			}
-	// 		}
-	// 	}
-	// }
 
 	v.validateStruct(val, "", &errors)
 
