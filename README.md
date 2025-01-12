@@ -80,14 +80,18 @@ func main() {
 
 O pacote oferece uma variedade de regras que podem ser aplicadas aos campos. Exemplos:
 
-- `rules.Required()`: O campo é obrigatório.
-- `rules.MinLength(n)`: Comprimento mínimo.
-- `rules.MaxLength(n)`: Comprimento máximo.
-- `rules.ExactLength(n)`: Comprimento exatamente igual a "n".
-- `rules.ValidEmail()`: Valida um email.
-- `rules.ValidPhoneNumber()`: Valida um telefone no formato [e164](https://en.wikipedia.org/wiki/E.164).
-- `rules.MinValue(n)`: Valor mínimo permitido.
-- `rules.MaxValue(n)`: Valor máximo permitido.
+- `rule.Required()`: O campo é obrigatório.
+- `rule.MinLength(n)`: Comprimento mínimo.
+- `rule.MaxLength(n)`: Comprimento máximo.
+- `rule.ExactLength(n)`: Comprimento exatamente igual a "n".
+- `rule.ValidURL()`: Valida uma URL.
+- `rule.ValidEmail()`: Valida um email.
+- `rule.ValidPhoneNumber()`: Valida um telefone no formato [e164](https://en.wikipedia.org/wiki/E.164).
+- `rule.String(n)`: Verifica se é uma string.
+- `rule.Int(n)`: Verifica se é um inteiro.
+- `rule.Bool(n)`: Verifica se é um bool.
+- `rule.MinValue(n)`: Valor mínimo permitido.
+- `rule.MaxValue(n)`: Valor máximo permitido.
 
 Você pode combinar essas regras em diferentes campos.
 
@@ -120,8 +124,8 @@ Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie u
 ## 🗹 Itens a Fazer
 
 - [ ] Permitir que o usuário forneça sua próprias mensagens customizadas
-- [ ] Validar uma URL
-- [ ] Checar o tipo: string, number, bool, etc.
+- [x] Validar uma URL
+- [ ] Checar o tipo: string, number, bool, float e etc.
 
 ## 📄 Licença
 

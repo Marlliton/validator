@@ -7,6 +7,18 @@ import (
 	"github.com/Marlliton/validator/validator_error"
 )
 
+func Int() Rule {
+	return func(key string, value interface{}) *validator_error.ValidatorError {
+		if _, ok := value.(int); !ok {
+			return &validator_error.ValidatorError{
+				Field:   key,
+				Message: fmt.Sprintf("the field '%s' must be an integer, but received %v", key, reflect.TypeOf(value)),
+			}
+		}
+		return nil
+	}
+}
+
 func MinValue[T int | float64](min T) Rule {
 	return func(key string, value interface{}) *validator_error.ValidatorError {
 		switch v := value.(type) {

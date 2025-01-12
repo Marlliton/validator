@@ -6,6 +6,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_Int(t *testing.T) {
+	t.Run("Verify if value is a integer", func(t *testing.T) {
+		rule := Int()
+		err := rule("test", 10)
+		assert.Nil(t, err)
+	})
+
+	t.Run("return error if value is not int", func(t *testing.T) {
+		rule := Int()
+		err := rule("test", 15.5)
+		assert.NotNil(t, err)
+
+		err = rule("test", "15.5")
+		assert.NotNil(t, err)
+	})
+}
+
 func Test_MinValue(t *testing.T) {
 	t.Run("Value equal to minimum", func(t *testing.T) {
 		rule := MinValue(10)

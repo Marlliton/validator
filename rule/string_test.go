@@ -6,6 +6,61 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func Test_String(t *testing.T) {
+	t.Run("Verify if value is an string", func(t *testing.T) {
+		rule := String()
+		err := rule("test", "string")
+		assert.Nil(t, err)
+	})
+
+	t.Run("return error if value is not string", func(t *testing.T) {
+		rule := String()
+		err := rule("test", 15.5)
+		assert.NotNil(t, err)
+
+		err = rule("test", "15.5")
+		assert.Nil(t, err)
+	})
+}
+
+func Test_ValidURL(t *testing.T) {
+	rule := ValidURL()
+
+	tests := []struct {
+		key      string
+		value    interface{}
+		expected string
+	}{
+		// URLs válidas
+		{"url", "https://valid-url.com", ""},
+		{"url", "http://example.org", ""},
+		{"url", "https://sub.domain.com", ""},
+		{"url", "https://www.google.com/search?q=golang", ""},
+		{"url", "ftp://ftp.example.com/file.txt", ""},
+		{"url", "http://localhost:8080", ""},
+
+		// URLs inválidas
+		{"url", "", "the field url is not a valid URL"},
+		{"url", "invalid-url", "the field url is not a valid URL"},
+		{"url", "https://", "the field url is not a valid URL"},
+		{"url", "ftp://", "the field url is not a valid URL"},
+
+		// Casos com outros tipos
+		{"url", 12345, "the field url is not a valid URL"},
+		{"url", true, "the field url is not a valid URL"},
+		{"url", nil, "the field url is not a valid URL"},
+	}
+
+	for _, tc := range tests {
+		err := rule(tc.key, tc.value)
+		if tc.expected == "" {
+			assert.Nil(t, err)
+		} else {
+			assert.NotNil(t, err, "expected an error for value: %v", tc.value)
+		}
+	}
+}
+
 func Test_ValidEmail(t *testing.T) {
 	rule := ValidEmail()
 
