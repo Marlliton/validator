@@ -120,6 +120,7 @@ Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie u
 ## 🗹 Itens a Fazer
 
 - [ ] Permitir que o usuário forneça sua próprias mensagens customizadas
+- [ ] Validar uma URL
 
 ## 📄 Licença
 
