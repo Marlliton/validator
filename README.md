@@ -121,6 +121,7 @@ Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie u
 
 - [ ] Permitir que o usuário forneça sua próprias mensagens customizadas
 - [ ] Validar uma URL
+- [ ] Checar o tipo: string, number, bool, etc.
 
 ## 📄 Licença
 
