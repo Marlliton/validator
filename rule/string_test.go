@@ -70,10 +70,10 @@ func Test_ValidEmail(t *testing.T) {
 		expected string
 	}{
 		{"email", "valid@example.com", ""},
-		{"email", "invalid-email", "the field 'email' is ivalid. mail: missing '@' or angle-addr"},
-		{"email", "", "the field 'email' is ivalid. mail: no address"},
-		{"email", "test@.com", "the field 'email' is ivalid. mail: missing '@' or angle-addr"},
-		{"email", "test@domain..com", "the field 'email' is ivalid. mail: missing '@' or angle-addr"},
+		{"email", "invalid-email", "the field 'email' is ivalid. 'mail: missing '@' or angle-addr'"},
+		{"email", "", "the field 'email' is ivalid. 'mail: no address'"},
+		{"email", "test@.com", "the field 'email' is ivalid. 'mail: missing '@' or angle-addr'"},
+		{"email", "test@domain..com", "the field 'email' is ivalid. 'mail: missing '@' or angle-addr'"},
 	}
 
 	for _, test := range tests {

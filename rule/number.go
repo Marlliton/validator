@@ -7,12 +7,18 @@ import (
 	"github.com/Marlliton/validator/validator_error"
 )
 
+const (
+	ErrMustBeAnInteger = "the field '%s' must be an integer, but received %v"
+	ErrMinValue        = "the field '%s' must be grater than or equal to %v"
+	ErrMaxValue        = "the field '%s' must be less than or equal to %v"
+)
+
 func Int() Rule {
 	return func(key string, value interface{}) *validator_error.ValidatorError {
 		if _, ok := value.(int); !ok {
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be an integer, but received %v", key, reflect.TypeOf(value)),
+				Message: fmt.Sprintf(ErrMustBeAnInteger, key, reflect.TypeOf(value)),
 			}
 		}
 		return nil
@@ -26,14 +32,14 @@ func MinValue[T int | float64](min T) Rule {
 			if v < min {
 				return &validator_error.ValidatorError{
 					Field:   key,
-					Message: fmt.Sprintf("the field '%s' must be grater than or equal to %v", key, min),
+					Message: fmt.Sprintf(ErrMinValue, key, min),
 				}
 			}
 
 		default:
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be a number of type %v, but received %v", key, reflect.TypeOf(min), reflect.TypeOf(value)),
+				Message: fmt.Sprintf(ErrMustBeAnInteger, key, reflect.TypeOf(value)),
 			}
 		}
 
@@ -49,13 +55,13 @@ func MaxValue[T int | float64](max T) Rule {
 			if v > max {
 				return &validator_error.ValidatorError{
 					Field:   key,
-					Message: fmt.Sprintf("the field '%s' must be less than or equal to %v", key, max),
+					Message: fmt.Sprintf(ErrMaxValue, key, max),
 				}
 			}
 		default:
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be a number of type %v, but received %v", key, reflect.TypeOf(max), reflect.TypeOf(value)),
+				Message: fmt.Sprintf(ErrMustBeAnInteger, key, reflect.TypeOf(value)),
 			}
 		}
 

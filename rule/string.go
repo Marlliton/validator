@@ -11,12 +11,20 @@ import (
 	"github.com/Marlliton/validator/validator_error"
 )
 
+const (
+	ErrMustBeAnString     = "the field '%s' must be an string, but received '%v'"
+	ErrValidEmail         = "the field '%s' is ivalid. '%v'"
+	ErrInvalidPhoneNumber = "the field '%s' is not a valid phone number %v"
+	ErrNonEmptyString     = "the field '%s' must be a non-empty string representing a valid URL"
+	ErrInvalidUrl         = "the field '%s' is not a valid URL: %s"
+)
+
 func String() Rule {
 	return func(key string, value interface{}) *validator_error.ValidatorError {
 		if _, ok := value.(string); !ok {
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be an string, but received %v", key, reflect.TypeOf(value)),
+				Message: fmt.Sprintf(ErrMustBeAnString, key, reflect.TypeOf(value)),
 			}
 		}
 		return nil
@@ -29,7 +37,7 @@ func ValidEmail() Rule {
 		if err != nil {
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' is ivalid. %v", key, err.Error()),
+				Message: fmt.Sprintf(ErrValidEmail, key, err.Error()),
 			}
 		}
 		return nil
@@ -46,7 +54,7 @@ func ValidPhoneNumber() Rule {
 		if !isValid {
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' is not a valid phone number %v", key, value),
+				Message: fmt.Sprintf(ErrInvalidPhoneNumber, key, value),
 			}
 		}
 
@@ -60,7 +68,7 @@ func ValidURL() Rule {
 		if !ok || urlStr == "" {
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' must be a non-empty string representing a valid URL", key),
+				Message: fmt.Sprintf(ErrNonEmptyString, key),
 			}
 		}
 
@@ -68,7 +76,7 @@ func ValidURL() Rule {
 		if err != nil || parsedURL.Scheme == "" || parsedURL.Host == "" {
 			return &validator_error.ValidatorError{
 				Field:   key,
-				Message: fmt.Sprintf("the field '%s' is not a valid URL: %s", key, urlStr),
+				Message: fmt.Sprintf(ErrInvalidUrl, key, urlStr),
 			}
 		}
 

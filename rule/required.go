@@ -7,11 +7,13 @@ import (
 	"github.com/Marlliton/validator/validator_error"
 )
 
+const ErrRequired = "the field '%s' is required"
+
 func Required() Rule {
 	return func(key string, value interface{}) *validator_error.ValidatorError {
 		errMsg := &validator_error.ValidatorError{
 			Field:   key,
-			Message: fmt.Sprintf("the field '%s' is required", key),
+			Message: fmt.Sprintf(ErrRequired, key),
 		}
 
 		if value == nil {

@@ -16,9 +16,9 @@ func Test_Bool(t *testing.T) {
 		{"boolean", true, ""},
 		{"boolean", false, ""},
 
-		{"boolean", 1234, "the field boolean is not a boolean value"},
-		{"boolean", "1234", "the field boolean is not a boolean value"},
-		{"boolean", nil, "the field boolean is not a boolean value"},
+		{"boolean", 1234, "the field 'boolean' must be a boolean"},
+		{"boolean", "1234", "the field 'boolean' must be a boolean"},
+		{"boolean", nil, "the field 'boolean' must be a boolean"},
 	}
 
 	for _, tc := range tests {
@@ -27,7 +27,7 @@ func Test_Bool(t *testing.T) {
 			assert.Nil(t, err)
 		} else {
 			assert.NotNil(t, err)
-			assert.Contains(t, err.Error(), "the field boolean is not a boolean value")
+			assert.Contains(t, err.Error(), "the field 'boolean' must be a boolean")
 		}
 	}
 }
