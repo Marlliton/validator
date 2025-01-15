@@ -40,7 +40,7 @@ type User struct {
 	Age   int
 }
 
-func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
+func (u *User) Validate() (bool, []*validator_error.ValidatorError) {
 	v := validator.New()
 
 	v.Add("Name", rule.Rules{
@@ -58,17 +58,17 @@ func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 
 	errs := v.Validate(*u)
 	if len(errs) == 0 {
-		return nil, true
+		return true, nil
 	}
-	return errs, false
+	return false, errs
 }
 
 func main() {
 	user := User{Name: "Jo", Email: "invalid_email", Age: 15}
-	if errs, ok := user.Validate(); !ok {
+	if ok, errs := user.Validate(); !ok {
 		fmt.Println("Erros de validação:")
 		for _, err := range errs {
-			fmt.Printf("Campo: %s, Mensagem: %s\n", err.Field, err.Message)
+			fmt.Println(err.Message)
 		}
 	} else {
 		fmt.Println("Tudo válido!")
