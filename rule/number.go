@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Marlliton/validator/validator_error"
+	"github.com/Marlliton/validator/fail"
 )
 
 const (
@@ -14,9 +14,9 @@ const (
 )
 
 func Int() Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		if _, ok := value.(int); !ok {
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrMustBeAnInteger, key, reflect.TypeOf(value)),
 			}
@@ -26,18 +26,18 @@ func Int() Rule {
 }
 
 func MinValue[T int | float64](min T) Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		switch v := value.(type) {
 		case T:
 			if v < min {
-				return &validator_error.ValidatorError{
+				return &fail.Error{
 					Field:   key,
 					Message: fmt.Sprintf(ErrMinValue, key, min),
 				}
 			}
 
 		default:
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrMustBeAnInteger, key, reflect.TypeOf(value)),
 			}
@@ -49,17 +49,17 @@ func MinValue[T int | float64](min T) Rule {
 }
 
 func MaxValue[T int | float64](max T) Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		switch v := value.(type) {
 		case T:
 			if v > max {
-				return &validator_error.ValidatorError{
+				return &fail.Error{
 					Field:   key,
 					Message: fmt.Sprintf(ErrMaxValue, key, max),
 				}
 			}
 		default:
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrMustBeAnInteger, key, reflect.TypeOf(value)),
 			}

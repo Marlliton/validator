@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Marlliton/validator/validator_error"
+	"github.com/Marlliton/validator/fail"
 )
 
 const (
@@ -17,18 +17,18 @@ const (
 )
 
 func MinLength(min int) Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		v := reflect.ValueOf(value)
 
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() < min {
-				return &validator_error.ValidatorError{
+				return &fail.Error{
 					Field:   key,
 					Message: fmt.Sprintf(ErrMinLength, key, min)}
 			}
 		default:
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrCannotBeValidatedMin, key),
 			}
@@ -38,19 +38,19 @@ func MinLength(min int) Rule {
 }
 
 func MaxLength(max int) Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		v := reflect.ValueOf(value)
 
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() > max {
-				return &validator_error.ValidatorError{
+				return &fail.Error{
 					Field:   key,
 					Message: fmt.Sprintf(ErrMaxLength, key, max),
 				}
 			}
 		default:
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrCannotBeValidatedMax, key),
 			}
@@ -60,19 +60,19 @@ func MaxLength(max int) Rule {
 }
 
 func ExactLength(length int) Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		v := reflect.ValueOf(value)
 
 		switch v.Kind() {
 		case reflect.String, reflect.Array, reflect.Slice, reflect.Map:
 			if v.Len() != length {
-				return &validator_error.ValidatorError{
+				return &fail.Error{
 					Field:   key,
 					Message: fmt.Sprintf(ErrExactLength, key, length),
 				}
 			}
 		default:
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrCannotBeValidatedExactly, key),
 			}

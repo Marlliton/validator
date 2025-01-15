@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/Marlliton/validator/validator_error"
+	"github.com/Marlliton/validator/fail"
 )
 
 const ErrRequired = "the field '%s' is required"
 
 func Required() Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
-		errMsg := &validator_error.ValidatorError{
+	return func(key string, value interface{}) *fail.Error {
+		errMsg := &fail.Error{
 			Field:   key,
 			Message: fmt.Sprintf(ErrRequired, key),
 		}

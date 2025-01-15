@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Marlliton/validator/validator_error"
+	"github.com/Marlliton/validator/fail"
 )
 
 const (
@@ -20,9 +20,9 @@ const (
 )
 
 func String() Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		if _, ok := value.(string); !ok {
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrMustBeAnString, key, reflect.TypeOf(value)),
 			}
@@ -32,10 +32,10 @@ func String() Rule {
 }
 
 func ValidEmail() Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		_, err := mail.ParseAddress(value.(string))
 		if err != nil {
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrValidEmail, key, err.Error()),
 			}
@@ -45,14 +45,14 @@ func ValidEmail() Rule {
 }
 
 func ValidPhoneNumber() Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		e164Regex := `^\+[1-9]\d{3,14}$`
 		re := regexp.MustCompile(e164Regex)
 		phoneNumber := strings.ReplaceAll(value.(string), " ", "")
 
 		isValid := re.Find([]byte(phoneNumber)) != nil
 		if !isValid {
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrInvalidPhoneNumber, key, value),
 			}
@@ -63,10 +63,10 @@ func ValidPhoneNumber() Rule {
 }
 
 func ValidURL() Rule {
-	return func(key string, value interface{}) *validator_error.ValidatorError {
+	return func(key string, value interface{}) *fail.Error {
 		urlStr, ok := value.(string)
 		if !ok || urlStr == "" {
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrNonEmptyString, key),
 			}
@@ -74,7 +74,7 @@ func ValidURL() Rule {
 
 		parsedURL, err := url.ParseRequestURI(urlStr)
 		if err != nil || parsedURL.Scheme == "" || parsedURL.Host == "" {
-			return &validator_error.ValidatorError{
+			return &fail.Error{
 				Field:   key,
 				Message: fmt.Sprintf(ErrInvalidUrl, key, urlStr),
 			}

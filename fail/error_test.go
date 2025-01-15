@@ -1,4 +1,4 @@
-package validator_error
+package fail
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 
 func Test_ValidatorError_Error(t *testing.T) {
 	t.Run("Test ValidatorError creation", func(t *testing.T) {
-		ve := &ValidatorError{
+		ve := &Error{
 			Field:   "username",
 			Message: "must be at least 3 characters long",
 		}
@@ -18,7 +18,7 @@ func Test_ValidatorError_Error(t *testing.T) {
 	})
 
 	t.Run("Test Error method", func(t *testing.T) {
-		ve := &ValidatorError{
+		ve := &Error{
 			Field:   "email",
 			Message: "must be a valid email address",
 		}
@@ -28,7 +28,7 @@ func Test_ValidatorError_Error(t *testing.T) {
 	})
 
 	t.Run("Test Error method with different values", func(t *testing.T) {
-		ve := &ValidatorError{
+		ve := &Error{
 			Field:   "password",
 			Message: "must contain at least one uppercase letter",
 		}
