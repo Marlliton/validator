@@ -58,8 +58,8 @@ import (
 	"fmt"
 
 	"github.com/Marlliton/validator"
+	"github.com/Marlliton/validator/fail"
 	"github.com/Marlliton/validator/rule"
-	"github.com/Marlliton/validator/validator_error"
 )
 
 // User representa uma entidade com os campos Name e Email.
@@ -69,7 +69,7 @@ type User struct {
 }
 
 // New cria uma nova instância de User com validação automática.
-func New(name, email string) (*User, []*validator_error.ValidatorError) {
+func New(name, email string) (*User, []*fail.Error) {
 	user := &User{name, email}
 
 	// Valida os dados do usuário antes de criar a instância.
@@ -81,7 +81,7 @@ func New(name, email string) (*User, []*validator_error.ValidatorError) {
 }
 
 // Validate aplica as regras de validação nos campos da struct User.
-func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
+func (u *User) Validate() ([]*fail.Error, bool) {
 	v := validator.New()
 
 	// Regras de validação para o campo Name.
@@ -132,8 +132,8 @@ import (
 	"fmt"
 
 	"github.com/Marlliton/validator"
+	"github.com/Marlliton/validator/fail"
 	"github.com/Marlliton/validator/rule"
-	"github.com/Marlliton/validator/validator_error"
 )
 
 // Address representa o endereço do usuário.
@@ -150,7 +150,7 @@ type User struct {
 }
 
 // New cria uma nova instância de User com validação automática, incluindo Address.
-func New(name, email, street, zip string) (*User, []*validator_error.ValidatorError) {
+func New(name, email, street, zip string) (*User, []*fail.Error) {
 	user := &User{
 		Name:  name,
 		Email: email,
@@ -169,7 +169,7 @@ func New(name, email, street, zip string) (*User, []*validator_error.ValidatorEr
 }
 
 // Validate aplica as regras de validação para User e Address.
-func (u *User) Validate() (bool, []*validator_error.ValidatorError) {
+func (u *User) Validate() (bool, []*fail.Error) {
 	v := validator.New()
 
 	// Regras para User.
@@ -226,8 +226,8 @@ import (
 	"fmt"
 
 	"github.com/Marlliton/validator"
+	"github.com/Marlliton/validator/fail"
 	"github.com/Marlliton/validator/rule"
-	"github.com/Marlliton/validator/validator_error"
 )
 
 // User representa um usuário com nome, email e idade.
@@ -238,7 +238,7 @@ type User struct {
 }
 
 // New cria uma nova instância de User com validação personalizada.
-func New(name, email string, age int) (*User, []*validator_error.ValidatorError) {
+func New(name, email string, age int) (*User, []*fail.Error) {
 	user := &User{
 		Name:  name,
 		Email: email,
@@ -254,18 +254,15 @@ func New(name, email string, age int) (*User, []*validator_error.ValidatorError)
 }
 
 // Validate aplica regras de validação, incluindo regras personalizadas.
-func (u *User) Validate() (bool, []*validator_error.ValidatorError) {
+func (u *User) Validate() (bool, []*fail.Error) {
 	v := validator.New()
 
 	// Regras personalizadas para o campo Age.
 	v.Add("Age", rule.Rules{
-		func(key string, value interface{}) *validator_error.ValidatorError {
+		func(key string, value interface{}) *fail.Error {
 			// Valida se o número é par.
 			if value.(int)%2 != 0 {
-				return &validator_error.ValidatorError{
-					Field:   key,
-					Message: "age must be even",
-				}
+				return fail.New(key, "age must be even")
 			}
 			return nil
 		},

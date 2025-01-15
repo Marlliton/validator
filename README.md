@@ -30,8 +30,8 @@ import (
 	"fmt"
 
 	"github.com/Marlliton/validator"
+	"github.com/Marlliton/validator/fail"
 	"github.com/Marlliton/validator/rule"
-	"github.com/Marlliton/validator/validator_error"
 )
 
 type User struct {
@@ -40,7 +40,7 @@ type User struct {
 	Age   int
 }
 
-func (u *User) Validate() (bool, []*validator_error.ValidatorError) {
+func (u *User) Validate() (bool, []*fail.Error) {
 	v := validator.New()
 
 	v.Add("Name", rule.Rules{
@@ -101,12 +101,9 @@ Crie suas próprias validações passando uma função personalizada como regra:
 
 ```go
 v.Add("CustomField", rule.Rules{
-	func(fieldName string, value interface{}) *validator_error.ValidatorError {
+	func(fieldName string, value interface{}) *fail.Error {
 		if value.(int)%2 != 0 {
-			return &validator_error.ValidatorError{
-				Field:   fieldName,
-				Message: "O número deve ser par",
-			}
+			return fail.New(fieldName, "O número deve ser par")
 		}
 		return nil
 	},
