@@ -161,7 +161,7 @@ func New(name, email, street, zip string) (*User, []*validator_error.ValidatorEr
 	}
 
 	// Valida os dados do usuário e do endereço.
-	if errs, ok := user.Validate(); !ok {
+	if ok, errs := user.Validate(); !ok {
 		return nil, errs
 	}
 
@@ -169,7 +169,7 @@ func New(name, email, street, zip string) (*User, []*validator_error.ValidatorEr
 }
 
 // Validate aplica as regras de validação para User e Address.
-func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
+func (u *User) Validate() (bool, []*validator_error.ValidatorError) {
 	v := validator.New()
 
 	// Regras para User.
@@ -194,9 +194,9 @@ func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 	// Executa a validação.
 	errs := v.Validate(*u)
 	if len(errs) == 0 {
-		return nil, true
+		return true, nil
 	}
-	return errs, false
+	return false, errs
 }
 
 func main() {
@@ -205,7 +205,7 @@ func main() {
 	if errs != nil {
 		fmt.Println("Erros de validação:")
 		for _, err := range errs {
-			fmt.Printf("Campo: %s, Mensagem: %s\n", err.Field, err.Message)
+			fmt.Println(err.Message)
 		}
 	} else {
 		fmt.Println("Usuário válido: ", user)
@@ -246,7 +246,7 @@ func New(name, email string, age int) (*User, []*validator_error.ValidatorError)
 	}
 
 	// Valida os dados do usuário antes de retornar.
-	if errs, ok := user.Validate(); !ok {
+	if ok, errs := user.Validate(); !ok {
 		return nil, errs
 	}
 
@@ -254,7 +254,7 @@ func New(name, email string, age int) (*User, []*validator_error.ValidatorError)
 }
 
 // Validate aplica regras de validação, incluindo regras personalizadas.
-func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
+func (u *User) Validate() (bool, []*validator_error.ValidatorError) {
 	v := validator.New()
 
 	// Regras personalizadas para o campo Age.
@@ -264,7 +264,7 @@ func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 			if value.(int)%2 != 0 {
 				return &validator_error.ValidatorError{
 					Field:   key,
-					Message: "the number must be even",
+					Message: "age must be even",
 				}
 			}
 			return nil
@@ -274,9 +274,9 @@ func (u *User) Validate() ([]*validator_error.ValidatorError, bool) {
 	// Executa a validação.
 	errs := v.Validate(*u)
 	if len(errs) == 0 {
-		return nil, true
+		return true, nil
 	}
-	return errs, false
+	return false, errs
 }
 
 func main() {
@@ -285,7 +285,7 @@ func main() {
 	if errs != nil {
 		fmt.Println("Erros de validação:")
 		for _, err := range errs {
-			fmt.Printf("Campo: %s, Mensagem: %s\n", err.Field, err.Message)
+			fmt.Println(err.Message)
 		}
 	} else {
 		fmt.Println("Usuário válido: ", user)
