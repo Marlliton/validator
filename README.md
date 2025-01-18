@@ -122,7 +122,12 @@ Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie u
 
 - [ ] Permitir que o usuário forneça sua próprias mensagens customizadas
 - [x] Validar uma URL
-- [ ] Checar o tipo: string, number, bool, float e etc.
+- [ ] Checar o tipo:
+	- [x] string
+ 	- [x] number
+  	- [x] bool
+  	- [ ] float
+- [ ] Adicionar método in para validar se um dado esté presente em um slice 
 
 ## 📄 Licença
 
