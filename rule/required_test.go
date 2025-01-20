@@ -53,9 +53,51 @@ func Test_Required(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("should return error for zero integer", func(t *testing.T) {
+	t.Run("should not return error for zero integer", func(t *testing.T) {
 		err := required("field", 0)
+		assert.Nil(t, err)
+	})
+
+	t.Run("should not return error for zero float", func(t *testing.T) {
+		err := required("field", 0.0)
+		assert.Nil(t, err)
+	})
+
+	t.Run("should not return error for non-zero float", func(t *testing.T) {
+		err := required("field", 1.23)
+		assert.Nil(t, err)
+	})
+
+	t.Run("should not return error for true boolean", func(t *testing.T) {
+		err := required("field", true)
+		assert.Nil(t, err)
+	})
+
+	t.Run("should not return error for false boolean", func(t *testing.T) {
+		err := required("field", false)
+		assert.Nil(t, err)
+	})
+
+	t.Run("should return error for empty struct", func(t *testing.T) {
+		err := required("field", struct{}{})
+		assert.NotNil(t, err)
+	})
+
+	t.Run("should not return error for non-empty struct", func(t *testing.T) {
+		err := required("field", struct{ Name string }{Name: "Test"})
+		assert.Nil(t, err)
+	})
+
+	t.Run("should return error for nil pointer", func(t *testing.T) {
+		var ptr *int
+		err := required("field", ptr)
 		assert.NotNil(t, err)
 		assert.EqualError(t, err, "the field 'field' is required")
+	})
+
+	t.Run("should not return error for non-nil pointer", func(t *testing.T) {
+		ptr := 42
+		err := required("field", &ptr)
+		assert.Nil(t, err)
 	})
 }

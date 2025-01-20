@@ -21,7 +21,6 @@ func Required() Rule {
 		}
 
 		val := reflect.ValueOf(value)
-
 		switch val.Kind() {
 		case reflect.String:
 			if val.String() == "" {
@@ -35,6 +34,13 @@ func Required() Rule {
 			if len(val.MapKeys()) == 0 {
 				return errMsg
 			}
+		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+			reflect.Float32, reflect.Float64:
+			return nil
+
+		case reflect.Bool:
+			return nil
 		default:
 			if val.IsZero() {
 				return errMsg
