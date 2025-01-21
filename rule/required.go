@@ -26,7 +26,7 @@ func Required() Rule {
 			if val.String() == "" {
 				return errMsg
 			}
-		case reflect.Slice:
+		case reflect.Slice, reflect.Array:
 			if val.Len() == 0 {
 				return errMsg
 			}
