@@ -127,7 +127,7 @@ Contribuições são bem-vindas! Abra um issue para relatar problemas ou envie u
   - [x] number
     - [x] bool
     - [ ] float
-- [ ] Adicionar método in para validar se um dado esté presente em um slice
+- [ ] Adicionar método in para validar se um dado esté presente em um slice (includes)
 - [x] Resolver bug na regra Required com o valor zero (0)
 
 ## 📄 Licença
